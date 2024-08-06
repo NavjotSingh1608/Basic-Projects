@@ -5,6 +5,8 @@ import Body from './components/Content';
 import Footer from './components/Footer';
 import Contact from './components/Contact';
 import Loader from './components/Loader';
+import SignInForm from './components/SignInForm';
+import SignUpForm from './components/SignUpForm';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -21,6 +23,8 @@ function App() {
           <Loader/>
       ) : (
         <>
+          <SignUpForm/>
+          <SignInForm/>
           <Navbar />
           <Body />
           <Contact />
