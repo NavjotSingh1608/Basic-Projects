@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {auth} from './firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 
-const SignUpForm = () => {
+const SignUpForm = ({setIsAuthenticated}) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,14 +29,19 @@ const SignUpForm = () => {
       return;
     }
 
-    await createUserWithEmailAndPassword(auth,email,password);
-    console.log('Form submitted:', { username, email, password });
-
-    setUsername('');
-    setEmail('');
-    setPassword('');
-    setConfirmPassword('');
-    setError('');
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      setIsAuthenticated(true);
+      navigate('/');
+      setUsername('');
+      setEmail('');
+      setPassword('');
+      setConfirmPassword('');
+      setError('');
+    } catch (err) {
+      console.error('Error signing up:', err);
+      setError('Failed to create an account. Please try again.');
+    }
   };
 
   return (

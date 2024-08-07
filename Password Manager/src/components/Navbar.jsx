@@ -1,9 +1,12 @@
 import { useState, useRef, UseEffect, useEffect } from "react";
+import { Link, useNavigate} from "react-router-dom";
+import { auth } from "./firebase";
 
 export default function NavBar() {
 
     let menuref = useRef()
     const [navbar, setNavbar] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         let handler = (e) => {
@@ -18,6 +21,16 @@ export default function NavBar() {
             document.removeEventListener("mousedown", handler)
         }
     })
+
+    const handlelogout = async () => {
+        try {
+            await auth.signOut(); // Sign out the user
+            navigate('/'); // Redirect to the home page after logout
+        } catch (error) {
+            console.error('Error signing out:', error);
+        }
+    };
+    
 
 
     return (
@@ -76,20 +89,24 @@ export default function NavBar() {
                     >
                         <ul className="items-center justify-center space-y-4 md:flex md:space-x-6 md:space-y-0">
                             <li className="text-gray-600 hover:text-blue-600">
-                                <a href="/">Home</a>
+                                <Link to="/">Home</Link>
                             </li>
                             <li className="text-gray-600 hover:text-blue-600">
-                                <a href="/">About Us</a>
+                                <Link to="/aboutus">About Us</Link>
                             </li>
                             <li className="text-gray-600 hover:text-blue-600">
-                                <a href="/">Contact Us</a>
+                                <Link to="/contactus">Contact Us</Link>
                             </li>
-                            <li className="text-gray-600 hover:text-blue-600">
+                            <li className="text-gray-600 hover:text-blue-600" onClick={handlelogout}>
+                                Logout
+                            </li>
+                            
+                            {/* <li className="text-gray-600 hover:text-blue-600">
                                 <a href="/">Sign Up </a>
                             </li>
                             <li className="text-gray-600 hover:text-blue-600">
                                 <a href="/">Log In </a>
-                            </li>
+                            </li> */}
                         </ul>
                     </div>
                 </div>

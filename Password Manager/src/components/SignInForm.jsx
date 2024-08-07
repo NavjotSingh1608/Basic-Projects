@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { auth } from './firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 
-const SignInForm = () => {
+const SignInForm = ({setIsAuthenticated}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(''); // State for error message
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -14,7 +15,8 @@ const SignInForm = () => {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      console.log('Sign in Success:', { email, password });
+      setIsAuthenticated(true);
+      navigate('/');
       setEmail('');
       setPassword('');
     } catch (err) {
