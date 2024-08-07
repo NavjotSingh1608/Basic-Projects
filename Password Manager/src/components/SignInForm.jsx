@@ -1,13 +1,45 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { auth } from './firebase';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 const SignInForm = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(''); // State for error message
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(''); // Clear any previous error
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      console.log('Sign in Success:', { email, password });
+      setEmail('');
+      setPassword('');
+    } catch (err) {
+      console.error('Error signing in:', err);
+      setError('Invalid email or password. Please try again.'); // Set error message
+    }
+  };
+
   return (
     <section className="bg-white dark:bg-gray-900">
       <div className="container flex items-center justify-center min-h-screen px-6 mx-auto">
-        <form className="w-full max-w-md">
-          <img className="w-auto h-7 sm:h-10 sm:w-8 rounded-md" src="src/assets/image.png" alt="" />
+        <form className="w-full max-w-md" onSubmit={handleSubmit}>
+          {/* <img className="w-auto h-7 sm:h-10 sm:w-8 rounded-md" src="src/assets/image.png" alt="" /> */}
 
-          <h1 className="mt-3 text-2xl font-semibold text-gray-800 capitalize sm:text-3xl dark:text-white">sign In</h1>
+          <div className="flex items-center justify-center mt-6">
+            <Link to="/signin" className="w-1/3 pb-4 font-medium text-center text-gray-800 capitalize border-b-2 border-blue-500 dark:border-blue-400 dark:text-white">
+              Sign In
+            </Link>
+
+            <Link to="/signup" className="w-1/3 pb-4 font-medium text-center text-gray-500 capitalize border-b dark:border-gray-400 dark:text-gray-300">
+              Sign Up
+            </Link>
+          </div>
+
+          {error && <p className="mt-4 text-center text-red-600">{error}</p>} 
 
           <div className="relative flex items-center mt-8">
             <span className="absolute">
@@ -16,7 +48,7 @@ const SignInForm = () => {
               </svg>
             </span>
 
-            <input type="email" className="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Email address" />
+            <input type="email" className="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Email address" value={email} onChange={(e) => setEmail(e.target.value)} />
           </div>
 
           <div className="relative flex items-center mt-4">
@@ -26,12 +58,12 @@ const SignInForm = () => {
               </svg>
             </span>
 
-            <input type="password" className="block w-full px-10 py-3 text-gray-700 bg-white border rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Password" />
+            <input type="password" className="block w-full px-10 py-3 text-gray-700 bg-white border rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
           </div>
 
           <div className="mt-6">
             <button className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
-              Sign in
+              Sign In
             </button>
 
             <p className="mt-4 text-center text-gray-600 dark:text-gray-400">or sign in with</p>
@@ -48,9 +80,9 @@ const SignInForm = () => {
             </a>
 
             <div className="mt-6 text-center">
-              <a href="#" className="text-sm text-blue-500 hover:underline dark:text-blue-400">
+              <Link to="/signup" className="text-sm text-blue-500 hover:underline dark:text-blue-400">
                 Don’t have an account yet? Sign up
-              </a>
+              </Link>
             </div>
           </div>
         </form>
