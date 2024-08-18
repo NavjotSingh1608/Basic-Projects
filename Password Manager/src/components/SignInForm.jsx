@@ -1,17 +1,20 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { auth } from './firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
+import UserContext from '../context/UserContext';
 
-const SignInForm = ({setIsAuthenticated}) => {
+const SignInForm = ({ setIsAuthenticated }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(''); // State for error message
+  const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  // const {setUser} = useContext(UserContext)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(''); // Clear any previous error
+    setError('');
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
@@ -21,7 +24,7 @@ const SignInForm = ({setIsAuthenticated}) => {
       setPassword('');
     } catch (err) {
       console.error('Error signing in:', err);
-      setError('Invalid email or password. Please try again.'); // Set error message
+      setError('Invalid email or password. Please try again.');
     }
   };
 
@@ -41,7 +44,7 @@ const SignInForm = ({setIsAuthenticated}) => {
             </Link>
           </div>
 
-          {error && <p className="mt-4 text-center text-red-600">{error}</p>} 
+          {error && <p className="mt-4 text-center text-red-600">{error}</p>}
 
           <div className="relative flex items-center mt-8">
             <span className="absolute">
@@ -84,6 +87,11 @@ const SignInForm = ({setIsAuthenticated}) => {
             <div className="mt-6 text-center">
               <Link to="/signup" className="text-sm text-blue-500 hover:underline dark:text-blue-400">
                 Don’t have an account yet? Sign up
+              </Link>
+            </div>
+            <div className="mt-6 text-center">
+              <Link to="/forgot-password" className="text-sm text-blue-500 hover:underline dark:text-blue-400">
+                Forgot your password?
               </Link>
             </div>
           </div>

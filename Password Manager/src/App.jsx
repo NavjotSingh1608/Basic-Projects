@@ -10,6 +10,8 @@ import SignUpForm from './components/SignUpForm';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { auth } from './components/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
+import UserContextProvider from './context/UserContextProvider';
+import ForgotPassword from './components/ForgotPassword';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -34,33 +36,39 @@ function App() {
       {loading ? (
         <Loader />
       ) : (
-        <BrowserRouter>
-          <Routes>
-            <Route
-              path="/signup"
-              element={<SignUpForm setIsAuthenticated={setIsAuthenticated} />}
-            />
-            <Route
-              path="/signin"
-              element={<SignInForm setIsAuthenticated={setIsAuthenticated} />}
-            />
-            <Route
-              path="/*"
-              element={
-                isAuthenticated ? (
-                  <>
-                    <Navbar />
-                    <Body />
-                    <Contact />
-                    <Footer />
-                  </>
-                ) : (
-                  <Navigate to="/signin" replace />
-                )
-              }
-            />
-          </Routes>
-        </BrowserRouter>
+        <UserContextProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route
+                path="/signup"
+                element={<SignUpForm setIsAuthenticated={setIsAuthenticated} />}
+              />
+              <Route
+                path="/signin"
+                element={<SignInForm setIsAuthenticated={setIsAuthenticated} />}
+              />
+              <Route 
+              path="/forgot-password" 
+              element={<ForgotPassword />} 
+              />
+              <Route
+                path="/*"
+                element={
+                  isAuthenticated ? (
+                    <>
+                      <Navbar />
+                      <Body />
+                      <Contact />
+                      <Footer />
+                    </>
+                  ) : (
+                    <Navigate to="/signin" replace />
+                  )
+                }
+              />
+            </Routes>
+          </BrowserRouter>
+        </UserContextProvider>
       )}
     </>
   );

@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { v4 as uuidv4 } from "uuid";
 import React from "react";
+import UserContext from "../context/UserContext";
 
 const Content = () => {
   const [ShowPassword, setShowPassword] = useState(false);
@@ -12,7 +13,9 @@ const Content = () => {
     let passwords = await req.json()
     setPasswordArray(passwords);
   }
-  
+
+  const {user} = useContext(UserContext);
+
   const handleshowpassword = () => {
     setShowPassword(!ShowPassword);
   };
@@ -62,7 +65,8 @@ const Content = () => {
       <div className="content mt-16">
         <div className="page m-2 text-justify p-2">
           <div className="welcome text-4xl mt-2 sm:text-5xl md:text-6xl font-">
-            Welcome User
+            Welcome {" "}
+            {user ? user.username : "User"}
           </div>
         </div>
 

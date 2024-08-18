@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {auth} from './firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+import UserContext from '../context/UserContext';
 
 const SignUpForm = ({setIsAuthenticated}) => {
   const [username, setUsername] = useState('');
@@ -10,6 +11,8 @@ const SignUpForm = ({setIsAuthenticated}) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  const {setUser} = useContext(UserContext)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,6 +35,7 @@ const SignUpForm = ({setIsAuthenticated}) => {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
       setIsAuthenticated(true);
+      setUser({username});
       navigate('/');
       setUsername('');
       setEmail('');
