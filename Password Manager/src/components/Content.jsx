@@ -30,7 +30,11 @@ const Content = () => {
       return;
     }
     let id = uuidv4();
-    await fetch("http://localhost:3000/", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...Form, id }) });
+    await fetch("http://localhost:3000/", { 
+      method: "POST",
+      headers: { "Content-Type": "application/json" }, 
+      body: JSON.stringify({ ...Form, id }) 
+    });
 
     setForm({ site: "", username: "", password: "" });
     getpassword();
@@ -50,7 +54,7 @@ const Content = () => {
   const handleeditpassword = (id) => {
     const passwordToEdit = passwordArray.find((item) => item.id === id);
     if (passwordToEdit) {
-      handledeletepassword(id); // Delete the existing password
+      handledeletepassword(id);
       setForm({ ...passwordToEdit, id: uuidv4() });
     }
   };
