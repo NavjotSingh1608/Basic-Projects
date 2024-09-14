@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 export default function ButtonAppBar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -19,12 +19,12 @@ export default function ButtonAppBar() {
             aria-label="menu"
             sx={{ mr: 2 }}
           >
-      
+
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          <Link to="/" className="linktext">Log Out</Link> 
+            <Link to="/" className="linktext">Log Out</Link>
           </Typography>
-          
+
         </Toolbar>
       </AppBar>
     </Box>

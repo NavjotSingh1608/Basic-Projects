@@ -50,10 +50,9 @@
 //         // name: signupData.name,
 //         email: signupData.email,
 //       });
-      
+
 //       setIsAuth(true);
 //       Navigate('/');
-
 
 //       navigate(window.location.pathname, { replace: true });
 

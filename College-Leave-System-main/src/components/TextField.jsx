@@ -5,12 +5,12 @@ import TextField from '@mui/material/TextField';
 export default function BasicTextFields(props) {
     const handleChange = (event) => {
         props.fun(event.target.value);
-        
-      };
-  return (
-    
-      <TextField id="outlined-basic" label={props.title} fullWidth variant="outlined" onChange={handleChange}/>
-     
-    
-  );
+
+    };
+    return (
+
+        <TextField id="outlined-basic" label={props.title} fullWidth variant="outlined" onChange={handleChange} />
+
+
+    );
 }

@@ -37,7 +37,7 @@ export default function RowAndColumnSpacing(props) {
         <Grid item xs={1}>
           <Item>{props.no}</Item>
         </Grid>
-        
+
       </Grid>
     </Box>
   );

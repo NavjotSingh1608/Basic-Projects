@@ -1,8 +1,8 @@
 import * as React from 'react';
-import {auth} from '../firebase-config';
+import { auth } from '../firebase-config';
 import { useNavigate } from "react-router-dom";
 import Avatar from '@mui/material/Avatar';
-import {db } from '../firebase-config';
+import { db } from '../firebase-config';
 
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -17,15 +17,15 @@ import { collection, addDoc, doc, setDoc } from 'firebase/firestore';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
- import { Alert,Collapse } from '@mui/material';
+import { Alert, Collapse } from '@mui/material';
 import { useState } from 'react';
 import pic from '../assets/photo_login.avif';
- import {
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    onAuthStateChanged,
-    signOut,
-  } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut,
+} from "firebase/auth";
 
 
 
@@ -46,56 +46,56 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export default function SignInSide({setIsAuth}) {
-      const navigate=useNavigate();
-    const [alert,setalert]=useState(false);
-    const [alert2,setalert2]=useState(false);
-    const [alert3,setalert3]=useState(false);
-    var details={};
-    var errmess=" ";
+export default function SignInSide({ setIsAuth }) {
+  const navigate = useNavigate();
+  const [alert, setalert] = useState(false);
+  const [alert2, setalert2] = useState(false);
+  const [alert3, setalert3] = useState(false);
+  var details = {};
+  var errmess = " ";
 
-  const handleSubmit = async(event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    details={
+    details = {
       email: data.get('email'),
       password: data.get('password'),
     }
-        if(details.email=="" && details.password==""){
-setalert(true);
-    }else{
-        setalert(false);
-        setalert2(true);
-        setalert3(false);
+    if (details.email == "" && details.password == "") {
+      setalert(true);
+    } else {
+      setalert(false);
+      setalert2(true);
+      setalert3(false);
     }
-    try{
-    const user = await signInWithEmailAndPassword(
+    try {
+      const user = await signInWithEmailAndPassword(
         auth,
         details.email,
         details.password
       );
       setIsAuth(true);
-     
-      if(details.email=="auth@auth.com"){
+
+      if (details.email == "auth@auth.com") {
         navigate('/auth');
-    }
-    if(details.email=="comphod@gmail.com"){
+      }
+      if (details.email == "comphod@gmail.com") {
         navigate('/hod');
-    }
-    else if(details.email=="classauth@gmail.com"){
-      navigate('/classauth');
-    }
-    else if(details.email != (("classauth@gmail.com" && "comphod@gmail.com")&& "auth@auth.com" )){
-      console.log("yahan pahuncha ");
-     navigate('/stu')
-    }
-console.log("ok");
-    }catch(err){
-        setalert2(false);
-        setalert3(true);
-        errmess=err.message;
-        console.log(err.message);
-        console.log(err.code);
+      }
+      else if (details.email == "classauth@gmail.com") {
+        navigate('/classauth');
+      }
+      else if (details.email != (("classauth@gmail.com" && "comphod@gmail.com") && "auth@auth.com")) {
+        console.log("yahan pahuncha ");
+        navigate('/stu')
+      }
+      console.log("ok");
+    } catch (err) {
+      setalert2(false);
+      setalert3(true);
+      errmess = err.message;
+      console.log(err.message);
+      console.log(err.code);
     }
   };
 
@@ -117,7 +117,7 @@ console.log("ok");
             backgroundPosition: 'center',
           }}
         />
-          {/* <img src={pic} alt="" style={{
+        {/* <img src={pic} alt="" style={{
             backgroundRepeat: 'no-repeat',
             width:'100%',
            // maxWidth:"600px",
@@ -143,14 +143,14 @@ console.log("ok");
               Sign in
             </Typography>
             <Collapse in={alert}>
-    <Alert severity="error">Fill the complete details</Alert>
-        </Collapse>
-       <Collapse in={alert2}>
-        <Alert severity="success" >Authenticating .Please Wait</Alert>
-        </Collapse>
-        <Collapse in={alert3}>
-        <Alert severity="error" >There was an error logging you in .Check your credentials</Alert>
-        </Collapse> 
+              <Alert severity="error">Fill the complete details</Alert>
+            </Collapse>
+            <Collapse in={alert2}>
+              <Alert severity="success" >Authenticating .Please Wait</Alert>
+            </Collapse>
+            <Collapse in={alert3}>
+              <Alert severity="error" >There was an error logging you in .Check your credentials</Alert>
+            </Collapse>
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
